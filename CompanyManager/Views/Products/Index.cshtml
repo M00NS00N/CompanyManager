@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CompanyManager.DatabaseAccessLayer.Context.Product>
+
+@{
+    ViewBag.Title = "Справочик продуктов";
+    AjaxOptions options = new AjaxOptions{
+        UpdateTargetId = "searchResult",
+        InsertionMode= InsertionMode.Replace
+    };
+}
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    function toggleContains(value, tdClass) {
+        $("tr>td." + tdClass + ":not(:contains('" + value + "'))").parent().hide();
+    }
+    $(document).ready(function () {
+        $("#productCode,#productName").on("input paste", function () {
+            var value1 = $("#productCode").val();
+            var value2 = $("#productName").val();
+            $("tr").show();
+            toggleContains(value1, "pc");
+            toggleContains(value2, "pn");
+        });
+    });
+
+</script>
+
+<h2>Справочник продукции</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <p>
+            @Html.ActionLink("Добавить", "Create")
+        </p>
+    </div>
+    <div class="col-md-1">
+        @Html.DisplayNameFor(model => model.ProductCode)
+    </div>
+    <div class="col-md-2">
+        @Html.TextBox("productCode", null, new { @id = "productCode" })
+    </div>
+    <div class="col-md-3">
+        @Html.DisplayNameFor(model => model.ProductName)
+    </div>
+    <div class="col-md-1">
+        @Html.TextBox("productName", null, new { @id = "productName" })
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Annotation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductMeasureUnit.MeasureUnitShortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attribute.AttributeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kind.KindName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type.TypeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="searchResult">
+            @Html.Action("Search", new { keyword = "" })
+    </tbody>
+</table>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>

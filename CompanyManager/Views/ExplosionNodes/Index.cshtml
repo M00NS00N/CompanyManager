@@ -1,0 +1,31 @@
+﻿@model  CompanyManager.Models.ExplosionNodesViewModel
+
+@{
+    ViewBag.Title = "Разузлование";
+}
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    function toggleContains(value, tdClass) {
+        $("tr>td." + tdClass + ":not(:contains('" + value + "'))").parent().hide();
+    }
+    $(document).ready(function () {
+        $("#pCode").on("input paste", function () {
+            var value1 = $("#pCode").val();
+            $("tr").show();
+            toggleContains(value1, "pc");
+        });
+    });
+
+</script>
+<h2>Разузлование</h2>
+@using (Html.BeginForm("Index", "ExplosionNodes"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.TextBox("productCode");
+    <input class="btn btn-default" type="submit" value="Решить" />
+}
+
+@Html.Partial("ExplosionNodesPartialView",model:Model.ExplosionNodes)
+
+@Html.Partial("NodePartialView", model:Model.Nodes)

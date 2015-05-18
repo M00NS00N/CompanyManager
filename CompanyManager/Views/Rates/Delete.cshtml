@@ -1,0 +1,56 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.Rate
+
+@{
+    ViewBag.Title = "Удалить";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы действительно хотите удалить эту норму?</h3>
+<div>
+    <h4>Норма</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.ProductCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.ProductCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Material.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Material.Code)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsumptionRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsumptionRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WasteRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WasteRate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Обратно к списку", "Index")
+        </div>
+    }
+</div>

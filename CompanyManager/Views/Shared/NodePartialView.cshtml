@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CompanyManager.DatabaseAccessLayer.Context.Node>
+<div class="container">
+    
+    <h3>Список узлов</h3>
+    
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MainProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitialProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MainProduct.Annotation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InitialProduct.Annotation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationProduct.Annotation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "Edit", "Nodes", new {id = item.Id}, new {}) |
+                    @Html.ActionLink("Подробнее", "Details", "Nodes", new {id = item.Id}, new {}) |
+                    @Html.ActionLink("Удалить", "Delete", "Nodes", new {id = item.Id}, new {})
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

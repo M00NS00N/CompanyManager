@@ -1,0 +1,32 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.Attribute
+
+@{
+    ViewBag.Title = "Удалить";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы действительно хотите удилить этот признак?</h3>
+<div>
+    <h4>Признак</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AttributeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttributeName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Обратно к списку", "Index")
+        </div>
+    }
+</div>

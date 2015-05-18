@@ -1,0 +1,51 @@
+﻿@model  CompanyManager.Models.ProductPlanResultViewModel
+
+@{
+    ViewBag.Title = "Материальное нормирование";
+}
+
+<h2>Материальное нормирование</h2>
+
+@*@using (Html.BeginForm("Index", "ProductPlanResults"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.TextBox("productCode");
+    <input class="btn btn-default" type="submit" value="Решить" />
+}*@
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Наименование материала")
+        </th>
+        <th>
+            @Html.DisplayName("Значение")
+        </th>
+        <th>
+            @Html.DisplayName("Единицы измерения")
+        </th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model.ProductPlanResults)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Material.MaterialName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Material.MeasureUnit.MeasureUnitShortName)
+                </td>
+            </tr>
+        }
+
+    }
+</table>
+<div class="row">
+    @Html.Partial("NodePartialView", model: Model.Nodes)
+
+</div>

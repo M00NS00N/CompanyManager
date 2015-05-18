@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CompanyManager.DatabaseAccessLayer.Context.ExplosionNode>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-2">
+        @Html.DisplayName("Код детали")
+    </div>
+    <div class="col-md-2">
+        @Html.TextBox("pCode", null, new { @id = "pCode" })
+    </div>
+    <div class="col-md-4"></div>
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Изделие")
+        </th>
+        <th>
+            @Html.DisplayName("Код детали")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modeltem => item.ProductComponent.ProductName)
+                </td>
+                <td class="pc">
+                    @Html.DisplayFor(modelItem => item.ProductComponent.Annotation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+            </tr>
+        }
+    }
+</table>

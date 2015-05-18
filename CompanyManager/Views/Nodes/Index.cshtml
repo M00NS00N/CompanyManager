@@ -1,0 +1,13 @@
+﻿@model IEnumerable<CompanyManager.DatabaseAccessLayer.Context.Node>
+
+@{
+    ViewBag.Title = "Справочник записей";
+}
+
+<h2>Справочник</h2>
+
+<p>
+    @Html.ActionLink("Добавить", "Create")
+</p>
+
+@Html.Partial("NodePartialView",model:Model)

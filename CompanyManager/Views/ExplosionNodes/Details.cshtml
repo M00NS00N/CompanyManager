@@ -1,0 +1,42 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.ExplosionNode
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExplosionNode</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MainProduct.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainProduct.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductComponent.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductComponent.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

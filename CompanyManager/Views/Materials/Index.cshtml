@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CompanyManager.DatabaseAccessLayer.Context.Material>
+
+@{
+    ViewBag.Title = "Справочник материалов";
+}
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    function toggleContains(value, tdClass) {
+        $("tr>td." + tdClass + ":not(:contains('" + value + "'))").parent().hide();
+    }
+    $(document).ready(function () {
+        $("#productCode,#productName").on("input paste", function () {
+            var value1 = $("#productCode").val();
+            var value2 = $("#productName").val();
+            $("tr").show();
+            toggleContains(value1, "pc");
+            toggleContains(value2, "pn");
+        });
+    });
+
+</script>
+
+<h2>Справочник материалов</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <p>
+            @Html.ActionLink("Добавить", "Create")
+        </p>
+    </div>
+    <div class="col-md-1">
+        @Html.DisplayNameFor(model => model.Code)
+    </div>
+    <div class="col-md-2">
+        @Html.TextBox("productCode", null, new { @id = "productCode" })
+    </div>
+    <div class="col-md-3">
+        @Html.DisplayNameFor(model => model.MaterialName)
+    </div>
+    <div class="col-md-1">
+        @Html.TextBox("productName", null, new { @id = "productName" })
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MaterialName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeasureUnit.MeasureUnitFullName)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td class="pn">
+            @Html.DisplayFor(modelItem => item.MaterialName)
+        </td>
+        <td class="pc">
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeasureUnit.MeasureUnitFullName)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Подробнее", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

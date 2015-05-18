@@ -1,0 +1,53 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.Node
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы действительно хотите удалить эту запись?</h3>
+<div>
+    <h4>Запись</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MainProductId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainProduct.Annotation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialProductId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialProduct.Annotation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationProductId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DestinationProduct.Annotation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Обратно к списку", "Index")
+        </div>
+    }
+</div>

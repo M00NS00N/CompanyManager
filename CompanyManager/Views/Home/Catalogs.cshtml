@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Catalogs";
+}
+
+<h2>Справочники</h2>
+
+<ul>
+    <li role="presentation">
+        @Html.ActionLink("Признаки", "Index", "Attributes", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Виды", "Index", "Kinds", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Материалы", "Index", "Materials", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Единицы измерения", "Index", "MeasureUnits", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Продукция", "Index", "Products", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Нормы", "Index", "Rates", new { }, new { })
+    </li>
+    <li>
+        @Html.ActionLink("Типы", "Index", "Types", new { }, new { })
+    </li>
+</ul>
+

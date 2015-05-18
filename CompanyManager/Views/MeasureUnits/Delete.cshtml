@@ -1,0 +1,40 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.MeasureUnit
+
+@{
+    ViewBag.Title = "Удалить";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы действительно хотите удалить этот вид?</h3>
+<div>
+    <h4>Единицы измерения</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MeasureUnitFullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeasureUnitFullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MeasureUnitShortName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeasureUnitShortName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Обратно к списку", "Index")
+        </div>
+    }
+</div>

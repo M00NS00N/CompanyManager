@@ -1,0 +1,78 @@
+﻿@model CompanyManager.DatabaseAccessLayer.Context.Product
+
+@{
+    ViewBag.Title = "Подробности";
+}
+
+<h2>Подробности</h2>
+
+<div>
+    <h4>Продукция</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Annotation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Annotation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductMeasureUnit.MeasureUnitShortName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductMeasureUnit.MeasureUnitShortName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Attribute.AttributeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attribute.AttributeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kind.KindName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kind.KindName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type.TypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type.TypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Изменить", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Обратно к списку", "Index")
+</p>
