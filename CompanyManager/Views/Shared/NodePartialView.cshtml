@@ -6,13 +6,22 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MainProductId)
-            </th>
+                @Html.DisplayNameFor(model => model.MainProductId)                
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.MainProduct.ProductName)
+            </th>            
             <th>
                 @Html.DisplayNameFor(model => model.InitialProductId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.InitialProduct.ProductName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DestinationProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationProduct.ProductName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Count)
@@ -26,10 +35,19 @@
                     @Html.DisplayFor(modelItem => item.MainProduct.Annotation)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.MainProduct.ProductName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.InitialProduct.Annotation)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.InitialProduct.ProductName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.DestinationProduct.Annotation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationProduct.ProductName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Count)

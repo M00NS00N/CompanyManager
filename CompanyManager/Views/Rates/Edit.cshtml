@@ -1,4 +1,4 @@
-﻿@model CompanyManager.DatabaseAccessLayer.Context.Rate
+﻿@model CompanyManager.Models.CreateRateViewModel
 
 @{
     ViewBag.Title = "Изменить";
@@ -14,37 +14,41 @@
         <h4>Норма</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.RateViewModel.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Product.ProductCode, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.Label("Продукт", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.DropDownList("ProductId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.RateViewModel.ProductId, 
+                    new SelectList(Model.Products, "ProductId", "ProductName", Model.RateViewModel.ProductId), 
+                    htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RateViewModel.ProductId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Material.Code, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.Label("Материал", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.DropDownList("MaterialId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MaterialId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.RateViewModel.MaterialId, 
+                    new SelectList(Model.Materials, "Id", "MaterialName", Model.RateViewModel.MaterialId),
+                    htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RateViewModel.MaterialId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConsumptionRate, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.RateViewModel.ConsumptionRate, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.ConsumptionRate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ConsumptionRate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RateViewModel.ConsumptionRate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RateViewModel.ConsumptionRate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WasteRate, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.RateViewModel.WasteRate, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.WasteRate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.WasteRate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RateViewModel.WasteRate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RateViewModel.WasteRate, "", new { @class = "text-danger" })
             </div>
         </div>
 

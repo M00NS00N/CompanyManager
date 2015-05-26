@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CompanyManager.DatabaseAccessLayer;
 using CompanyManager.DatabaseAccessLayer.Context;
+using CompanyManager.Models;
 
 namespace CompanyManager.Controllers.Catalogs
 {
@@ -44,10 +45,27 @@ namespace CompanyManager.Controllers.Catalogs
         // GET: Nodes/Create
         public ActionResult Create()
         {
-            ViewBag.DestinationProductId = new SelectList(db.Products.OrderBy(x=>x.Annotation), "Id", "Annotation");
-            ViewBag.InitialProductId = new SelectList(db.Products.OrderBy(x => x.Annotation), "Id", "Annotation");
-            ViewBag.MainProductId = new SelectList(db.Products.OrderBy(x => x.Annotation), "Id", "Annotation");
-            return View();
+            var products = db.Products.OrderBy(x => x.Annotation);
+            var productNames = products.Select(p => p.Annotation + " " + p.ProductName);
+
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            foreach (Product product in products)
+            {
+                productViewModels.Add(new ProductViewModel()
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Annotation + " " + product.ProductName
+                });
+            }
+
+            CreateNodeViewModel createNodeViewModel = new CreateNodeViewModel();
+            createNodeViewModel.Products = productViewModels;
+            //Tuple<NodeViewModel, IEnumerable<ProductViewModel>> tuple =
+            //    new Tuple<NodeViewModel, IEnumerable<ProductViewModel>>(new NodeViewModel(), productViewModels);
+            //ViewBag.DestinationProductId = new SelectList(products, "Id", "Annotation");
+            //ViewBag.InitialProductId = new SelectList(products, "Id", "Annotation");
+            //ViewBag.MainProductId = new SelectList(products, "Id", "Annotation");
+            return View(createNodeViewModel);
         }
 
         // POST: Nodes/Create
@@ -55,19 +73,28 @@ namespace CompanyManager.Controllers.Catalogs
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,MainProductId,InitialProductId,DestinationProductId,Count")] Node node)
+        public ActionResult Create(CreateNodeViewModel createNodeViewModel)
         {
+            NodeViewModel nodeViewModel = createNodeViewModel.Node;
             if (ModelState.IsValid)
             {
+                Node node = new Node()
+                {
+                    MainProductId = nodeViewModel.MainProductId,
+                    InitialProductId = nodeViewModel.InitialProductId,
+                    DestinationProductId = nodeViewModel.DestinationProductId,
+                    Count = nodeViewModel.Count
+                };
+
                 db.Nodes.Add(node);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
-            ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
-            ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
-            return View(node);
+            //ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
+            //ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
+            //ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
+            return View(createNodeViewModel);
         }
 
         // GET: Nodes/Edit/5
@@ -82,10 +109,35 @@ namespace CompanyManager.Controllers.Catalogs
             {
                 return HttpNotFound();
             }
-            ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
-            ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
-            ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
-            return View(node);
+
+            var products = db.Products.OrderBy(x => x.Annotation);
+            var productNames = products.Select(p => p.Annotation + " " + p.ProductName);
+
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();            
+            foreach (Product product in products)
+            {
+                productViewModels.Add(new ProductViewModel()
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Annotation + " " + product.ProductName
+                });
+            }
+
+            CreateNodeViewModel createNodeViewModel = new CreateNodeViewModel();
+            createNodeViewModel.Node = new NodeViewModel()
+            {
+                Id = node.Id,
+                MainProductId = node.MainProductId,
+                InitialProductId = node.InitialProductId,
+                DestinationProductId = node.DestinationProductId,
+                Count = node.Count
+            };
+            createNodeViewModel.Products = productViewModels;
+
+            //ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
+            //ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
+            //ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
+            return View(createNodeViewModel);
         }
 
         // POST: Nodes/Edit/5
@@ -93,18 +145,25 @@ namespace CompanyManager.Controllers.Catalogs
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MainProductId,InitialProductId,DestinationProductId,Count")] Node node)
+        public ActionResult Edit(CreateNodeViewModel createNodeViewModel)
         {
             if (ModelState.IsValid)
             {
+                NodeViewModel nodeViewModel = createNodeViewModel.Node;
+                Node node = db.Nodes.SingleOrDefault(n => n.Id == createNodeViewModel.Node.Id);
+                node.MainProductId = nodeViewModel.MainProductId;
+                node.InitialProductId = nodeViewModel.InitialProductId;
+                node.DestinationProductId = nodeViewModel.DestinationProductId;
+                node.Count = nodeViewModel.Count;
+
                 db.Entry(node).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
-            ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
-            ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
-            return View(node);
+            //ViewBag.DestinationProductId = new SelectList(db.Products, "Id", "Annotation", node.DestinationProductId);
+            //ViewBag.InitialProductId = new SelectList(db.Products, "Id", "Annotation", node.InitialProductId);
+            //ViewBag.MainProductId = new SelectList(db.Products, "Id", "Annotation", node.MainProductId);
+            return View(createNodeViewModel);
         }
 
         // GET: Nodes/Delete/5

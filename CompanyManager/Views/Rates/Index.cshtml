@@ -10,12 +10,14 @@
         $("tr>td." + tdClass + ":not(:contains('" + value + "'))").parent().hide();
     }
     $(document).ready(function () {
-        $("#productCode,#materialCode").on("input paste", function () {
-            var value1 = $("#productCode").val();
-            var value2 = $("#materialCode").val();
+        $("#materialName,#productCode,#productName").on("input paste", function () {
+            var value1 = $("#materialName").val();
+            var value2 = $("#productCode").val();
+            var value3 = $("#productName").val();
             $("tr").show();
-            toggleContains(value1, "pc");
-            toggleContains(value2, "mc");
+            toggleContains(value1, "mn");
+            toggleContains(value2, "pc");
+            toggleContains(value3, "pn");
         });
     });
 
@@ -24,32 +26,44 @@
 <h2>Справочник норм</h2>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-2">
         <p>
             @Html.ActionLink("Добавить", "Create")
         </p>
     </div>
     <div class="col-md-1">
-        @Html.DisplayNameFor(model => model.Material.Code)
+        @Html.DisplayName("Наименование материала")        
     </div>
     <div class="col-md-2">
-        @Html.TextBox("materialCode", null, new { @id = "materialCode" })
+        @Html.TextBox("materialName", null, new { @id = "materialName" })
     </div>
-    <div class="col-md-3">
-        @Html.DisplayNameFor(model => model.Product.ProductCode)
+    <div class="col-md-1">
+        @Html.DisplayName("Обозначение")
+    </div>
+    <div class="col-md-2 ">
+        @Html.TextBox("productCode", null, new { @id = "productCode" })
+    </div>
+    <div class="col-md-1">
+        @Html.DisplayName("Наименование продукта")        
     </div>
     <div class="col-md-1 ">
-        @Html.TextBox("productCode", null, new { @id = "productCode" })
+        @Html.TextBox("productName", null, new { @id = "productName" })
     </div>
 </div>
 
 <table class="table">
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Material.Code)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Material.MaterialName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product.ProductCode)
+            @Html.DisplayNameFor(model => model.Product.Annotation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ConsumptionRate)
@@ -62,11 +76,17 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td class="mc">
+        @*<td class="mc">
             @Html.DisplayFor(modelItem => item.Material.Code)
+        </td>*@
+        <td class="mn">
+            @Html.DisplayFor(modelItem => item.Material.MaterialName)
         </td>
         <td class="pc">
-            @Html.DisplayFor(modelItem => item.Product.ProductCode)
+            @Html.DisplayFor(modelItem => item.Product.Annotation)
+        </td>
+        <td class="pn">
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ConsumptionRate)

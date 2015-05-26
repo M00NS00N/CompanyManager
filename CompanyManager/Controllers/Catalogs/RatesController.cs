@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CompanyManager.DatabaseAccessLayer;
 using CompanyManager.DatabaseAccessLayer.Context;
+using CompanyManager.Models;
 
 namespace CompanyManager.Controllers.Catalogs
 {
@@ -40,9 +41,23 @@ namespace CompanyManager.Controllers.Catalogs
         // GET: Rates/Create
         public ActionResult Create()
         {
-            ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code");
-            ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode");
-            return View();
+            CreateRateViewModel createRate = new CreateRateViewModel();            
+            createRate.RateViewModel = new RateViewModel();
+            IEnumerable<Product> products = db.Products.OrderBy(x => x.ProductCode);
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            foreach (Product product in products)
+            {
+                productViewModels.Add(new ProductViewModel()
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Annotation + " " + product.ProductName
+                });
+            }
+
+            createRate.Materials = db.Materials.OrderBy(x => x.Code);
+            createRate.Products = productViewModels;
+            
+            return View(createRate);
         }
 
         // POST: Rates/Create
@@ -50,18 +65,27 @@ namespace CompanyManager.Controllers.Catalogs
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProductId,MaterialId,ConsumptionRate,WasteRate")] Rate rate)
-        {
+        public ActionResult Create(CreateRateViewModel createRateViewModel)
+        {            
             if (ModelState.IsValid)
             {
+                RateViewModel rateViewModel = createRateViewModel.RateViewModel;
+                Rate rate = new Rate()
+                {
+                    MaterialId = rateViewModel.MaterialId,
+                    ProductId = rateViewModel.ProductId,
+                    ConsumptionRate = rateViewModel.ConsumptionRate,
+                    WasteRate = rateViewModel.WasteRate
+                };
+
                 db.Rates.Add(rate);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
-            ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
-            return View(rate);
+            //ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
+            //ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
+            return View(createRateViewModel);
         }
 
         // GET: Rates/Edit/5
@@ -76,9 +100,33 @@ namespace CompanyManager.Controllers.Catalogs
             {
                 return HttpNotFound();
             }
-            ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
-            ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
-            return View(rate);
+
+            CreateRateViewModel createRate = new CreateRateViewModel();
+            createRate.RateViewModel = new RateViewModel()
+            {
+                Id = rate.Id,
+                MaterialId = rate.MaterialId,
+                ProductId = rate.ProductId,
+                ConsumptionRate = rate.ConsumptionRate,
+                WasteRate = rate.WasteRate
+            };
+            IEnumerable<Product> products = db.Products.OrderBy(x => x.ProductCode);
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            foreach (Product product in products)
+            {
+                productViewModels.Add(new ProductViewModel()
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Annotation + " " + product.ProductName
+                });
+            }
+
+            createRate.Materials = db.Materials.OrderBy(x => x.Code);
+            createRate.Products = productViewModels;
+
+            //ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
+            //ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
+            return View(createRate);
         }
 
         // POST: Rates/Edit/5
@@ -86,17 +134,24 @@ namespace CompanyManager.Controllers.Catalogs
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProductId,MaterialId,ConsumptionRate,WasteRate")] Rate rate)
+        public ActionResult Edit(CreateRateViewModel createRateViewModel)
         {
             if (ModelState.IsValid)
             {
+                RateViewModel rateViewModel = createRateViewModel.RateViewModel;
+                Rate rate = db.Rates.SingleOrDefault(r => r.Id == rateViewModel.Id);
+                rate.ProductId = rateViewModel.ProductId;
+                rate.MaterialId = rateViewModel.MaterialId;
+                rate.ConsumptionRate = rateViewModel.ConsumptionRate;
+                rate.WasteRate = rateViewModel.WasteRate;
+
                 db.Entry(rate).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
-            ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
-            return View(rate);
+            //ViewBag.MaterialId = new SelectList(db.Materials.OrderBy(x=>x.Code), "Id", "Code", rate.MaterialId);
+            //ViewBag.ProductId = new SelectList(db.Products.OrderBy(x=>x.ProductCode), "Id", "ProductCode", rate.ProductId);
+            return View(createRateViewModel);
         }
 
         // GET: Rates/Delete/5
