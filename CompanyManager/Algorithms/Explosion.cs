@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
 using CompanyManager.DatabaseAccessLayer;
 using CompanyManager.DatabaseAccessLayer.Context;
 
@@ -15,6 +10,10 @@ namespace CompanyManager.Algorithms
     {
         CompanyDatabaseContext db = new CompanyDatabaseContext();
 
+        public Explosion()
+        {
+            ClearTable();
+        }
 
         private IEnumerable<Node> GetAllWhere(string productCode)
         {
@@ -36,7 +35,7 @@ namespace CompanyManager.Algorithms
 
         private void ClearTable()
         {
-            var explosionNodes = db.ExplosionNodes.Include(e => e.MainProduct).Include(e => e.ProductComponent).ToList();
+            var explosionNodes = db.ExplosionNodes.ToList();//.Include(e => e.MainProduct).Include(e => e.ProductComponent).ToList();
             foreach (var node in explosionNodes)
             {
                 db.ExplosionNodes.Remove(node);

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -44,7 +43,10 @@ namespace CompanyManager.Controllers.Catalogs
             MaterialRate algMat = new MaterialRate();
 
             var result = algMat.Calculate(explosionNode.Id);
-            result = db.ProductPlanResults.Include(p => p.Material).Include(p=>p.Material.MeasureUnit).ToList();
+            result = db.ProductPlanResults.Include(p => p.Material)
+                                          .Include(p=>p.Material.MeasureUnit)
+                                          .OrderBy(p=>p.Material.MaterialName)
+                                          .ToList();
             foreach (var res in result)
             {
                 res.Value *= count;
